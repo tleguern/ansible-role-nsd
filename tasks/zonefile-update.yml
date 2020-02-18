@@ -1,0 +1,51 @@
+---
+- name: "{{ zone.name }} - Get current serial"
+  shell: grep '; serial' '{{ nsd_zones_dir }}/master/{{ zone.name }}.zone' | grep -Eo '[0-9]{10}'
+  changed_when: False
+  failed_when: False
+  register: current_serial
+
+- name: "{{ zone.name }} - Define serial"
+  set_fact:
+    serial: "{{ current_serial.stdout }}"
+
+- name: "{{ zone.name }} - Create temporary zone file"
+  template:
+    src: "{{ nsd_zones_inputdir }}/{{ zone.name }}.j2"
+    dest: "/tmp/{{ zone.name }}.zone.tmp"
+  changed_when: False
+
+- name: "{{ zone.name }} - Stat temporary zone file"
+  stat:
+    path: "/tmp/{{ zone.name }}.zone.tmp"
+  register: temp_zone_file
+
+- name: "{{ zone.name }} - Check if zone file will change"
+  set_fact:
+    zonefile_changed: '{{ current_zone_file.stat.checksum != temp_zone_file.stat.checksum }}'
+
+- name: "{{ zone.name }} - Remove temporary zone file"
+  file:
+    path: "/tmp/{{ zone.name }}.zone.tmp"
+    state: absent
+  changed_when: False
+
+- name: "{{ zone.name }} - Apply update"
+  block:
+  - name: "{{ zone.name }} - Check if current serial is from today"
+    set_fact:
+      serial_is_today: "{{ current_serial.stdout is search(today) }}"
+  
+  - name: "{{ zone.name }} - New serial is today + 1"
+    set_fact:
+      serial: "{{ (current_serial.stdout | int) + 1 }}"
+    when: serial_is_today
+  
+  - name: "{{ zone.name }} - New serial is fresh"
+    set_fact:
+      serial: "{{ today + '00' }}"
+    when: not serial_is_today
+  
+  - include_tasks: zonefile-create.yml
+
+  when: zonefile_changed

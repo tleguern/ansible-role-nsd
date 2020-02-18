@@ -1,0 +1,5 @@
+---
+- name: "{{ zone.name }} - Ensure unwanted zone is removed"
+  file:
+    path: "{{ nsd_zones_dir }}/master/{{ zone.name }}.zone"
+    state: absent

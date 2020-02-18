@@ -1,0 +1,8 @@
+---
+- name: Enable nsd
+  service:
+    name: "{{ nsd_service }}"
+    arguments: "{{ nsd_flags }}"
+    enabled: yes
+  notify:
+    - Restart nsd

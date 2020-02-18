@@ -1,0 +1,43 @@
+server:
+  ip-address: {{ nsd_ip4 }}
+  ip-address: {{ nsd_ip6 }}
+  ip-transparent: yes
+  server-count: {{ ansible_processor_cores }}
+  hide-version: yes
+  verbosity: 1
+  database: {{ nsd_db_dir }}/nsd.db
+
+remote-control:
+  control-enable: yes
+  control-interface: /var/run/nsd.sock
+
+{% if nsd_keys is defined -%}
+{% for key in nsd_keys -%}
+key:
+  name: {{ key.name }}
+  algorithm: {{ key.algorithm | default('hmac-sha256') }}
+  secret: {{ key.secret }}
+{% endfor %}
+
+{% endif -%}
+
+{% for zone in nsd_zones %}
+{% if zone.state is not defined or zone.state != 'absent' %}
+zone:
+  name: {{ zone.name }}
+{% if nsd_role != 'slave' %}
+  zonefile: "master/{{ zone.name }}.zone"
+{% else %}
+  zonefile: "slave/{{ zone.name }}.zone"
+{% endif %}
+{% if nsd_role == 'master' %}
+  notify: {{ nsd_slave }} {{ zone.key }}
+  provide-xfr: {{ nsd_slave }} {{ zone.key }}
+{% endif -%}
+{% if nsd_role == 'slave' %}
+  allow-notify: {{ nsd_master }} {{ zone.key }}
+  request-xfr: AXFR {{ nsd_master }} {{ zone.key }}
+{% endif %}
+{% endif %}
+
+{% endfor %}

@@ -1,0 +1,6 @@
+---
+- name: "{{ zone.name }} - Generate zone from template"
+  template:
+    src: "{{ nsd_zones_inputdir }}/{{ zone.name }}.j2"
+    dest: "{{ nsd_zones_dir }}/master/{{ zone.name }}.zone"
+  notify: Restart nsd
