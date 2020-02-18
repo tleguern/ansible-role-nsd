@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Tristan Le Guern
+  description: nsd daemon
+  company: Gwern
+  license: ISC
+  min_ansible_version: 2.7
+  platforms:
+    - name: OpenBSD
+  galaxy_tags:
+    - nsd
+    - dns
