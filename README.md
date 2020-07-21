@@ -40,6 +40,7 @@ This variable is a list of dict of zone files this role will handle.
 ### `nsd_keys`
 
 This variable is a list of dict describing keys for `nsd`.
+It is mandatory to declare a `nsd_keys` list if `nsd_role` is not `standalone`.
 
 | Variable | Description | Mandatory? |
 |----------|-------------|---------|
