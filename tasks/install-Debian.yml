@@ -1,0 +1,27 @@
+---
+- name: Install nsd
+  apt:
+    name: "{{ nsd_package }}"
+    state: present
+
+- name: Enable nsd
+  service:
+    name: "{{ nsd_service }}"
+    enabled: yes
+
+- name: Create zones directory
+  file:
+    path: "{{ __nsd_zones_dir }}"
+    state: directory
+    owner: root
+    group: "{{ nsd_group }}"
+
+- name: Create master and slave directories
+  file:
+    path: "{{ __nsd_zones_dir }}/{{ item }}"
+    state: directory
+    owner: root
+    group: "{{ nsd_group }}"
+  loop:
+    - master
+    - slave

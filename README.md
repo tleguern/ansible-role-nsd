@@ -45,6 +45,19 @@ This variable is a list of dict describing keys for `nsd`.
 | algorithm | Key algorithm | no, default to `hmac-sha256` |
 | secret | Key content | yes |
 
+### Debian
+
+| Variable | Default |
+|----------|---------|
+| `__nsd_user` | `nsd` |
+| `__nsd_group` | `nsd` |
+| `__nsd_service` | `nsd` |
+| `__nsd_package` | `nsd` |
+| `__nsd_conf_dir` | `/etc/nsd` |
+| `__nsd_zones_dir` | `/var/lib/nsd/zones` |
+| `__nsd_db_dir` | `/var/lib/nsd` |
+| `__nsd_bin` | `/usr/sbin/nsd-checkconf` |
+
 ### OpenBSD
 
 | Variable | Default |

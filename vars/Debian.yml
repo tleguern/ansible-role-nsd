@@ -1,0 +1,9 @@
+---
+__nsd_user: nsd
+__nsd_group: nsd
+__nsd_service: nsd
+__nsd_package: nsd
+__nsd_conf_dir: /etc/nsd
+__nsd_zones_dir: /etc/nsd/zones
+__nsd_db_dir: /var/lib/nsd
+__nsd_bin: /usr/sbin/nsd-checkconf
