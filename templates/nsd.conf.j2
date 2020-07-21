@@ -9,7 +9,7 @@ server:
 
 remote-control:
   control-enable: yes
-  control-interface: /var/run/nsd.sock
+  control-interface: {{ nsd_sock }}
 
 {% if nsd_keys is defined -%}
 {% for key in nsd_keys -%}
