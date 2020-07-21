@@ -12,3 +12,4 @@ nsd_sock: "{{ __nsd_sock }}"
 nsd_flags: ""
 nsd_zones_inputdir: ""
 nsd_role: "standalone"
+nsd_listens: []

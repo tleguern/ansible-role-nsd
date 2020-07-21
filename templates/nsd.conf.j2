@@ -1,6 +1,9 @@
 server:
-  ip-address: {{ nsd_ip4 | default(omit) }}
-  ip-address: {{ nsd_ip6 | default(omit) }}
+{% if nsd_listens is defined %}
+{% for ip in nsd_listens %}
+  ip-address: {{ ip }}
+{% endfor %}
+{% endif %}
   ip-transparent: yes
   server-count: {{ ansible_processor_cores }}
   hide-version: yes
