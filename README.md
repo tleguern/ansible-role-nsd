@@ -24,6 +24,8 @@ None.
 | `nsd_role` | Either `standalone`, `master` or `slave` | `standalone` |
 | `nsd_zone` | A list of zones | see below |
 | `nsd_keys` | A list of keys for AXFR | see below |
+| `nsd_ip4` | Optionally bind to a specific IPv4 address | "" |
+| `nsd_ip6` | Optionally bind to a specific IPv6 address | "" |
 
 ### `nsd_zone`
 

@@ -1,6 +1,6 @@
 server:
-  ip-address: {{ nsd_ip4 }}
-  ip-address: {{ nsd_ip6 }}
+  ip-address: {{ nsd_ip4 | default(omit) }}
+  ip-address: {{ nsd_ip6 | default(omit) }}
   ip-transparent: yes
   server-count: {{ ansible_processor_cores }}
   hide-version: yes
