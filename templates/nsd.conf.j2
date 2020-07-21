@@ -1,15 +1,22 @@
 server:
-  ip-address: {{ nsd_ip4 }}
-  ip-address: {{ nsd_ip6 }}
+{% if nsd_listens is defined %}
+{% for ip in nsd_listens %}
+  ip-address: {{ ip }}
+{% endfor %}
+{% endif %}
   ip-transparent: yes
   server-count: {{ ansible_processor_cores }}
   hide-version: yes
   verbosity: 1
   database: {{ nsd_db_dir }}/nsd.db
+  zonesdir: {{ nsd_zones_dir }}
+{% if nsd_logfile != "" %}
+  logfile: {{ nsd_logfile }}
+{% endif %}
 
 remote-control:
   control-enable: yes
-  control-interface: /var/run/nsd.sock
+  control-interface: {{ nsd_sock }}
 
 {% if nsd_keys is defined -%}
 {% for key in nsd_keys -%}
@@ -26,9 +33,9 @@ key:
 zone:
   name: {{ zone.name }}
 {% if nsd_role != 'slave' %}
-  zonefile: "master/{{ zone.name }}.zone"
+  zonefile: "{{ nsd_zones_dir }}/master/{{ zone.name }}.zone"
 {% else %}
-  zonefile: "slave/{{ zone.name }}.zone"
+  zonefile: "{{ nsd_zones_dir }}/slave/{{ zone.name }}.zone"
 {% endif %}
 {% if nsd_role == 'master' %}
   notify: {{ nsd_slave }} {{ zone.key }}

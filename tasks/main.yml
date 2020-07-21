@@ -7,6 +7,9 @@
     src: nsd.conf.j2
     dest: "{{ nsd_conf_file }}"
     validate: "{{ nsd_bin }} %s"
+    mode: 0640
+    owner: root
+    group: "{{ nsd_group }}"
   notify: Restart nsd
 
 - name: Define today's timestamp
