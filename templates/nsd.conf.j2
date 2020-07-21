@@ -33,9 +33,9 @@ key:
 zone:
   name: {{ zone.name }}
 {% if nsd_role != 'slave' %}
-  zonefile: "master/{{ zone.name }}.zone"
+  zonefile: "{{ nsd_zones_dir }}/master/{{ zone.name }}.zone"
 {% else %}
-  zonefile: "slave/{{ zone.name }}.zone"
+  zonefile: "{{ nsd_zones_dir }}/slave/{{ zone.name }}.zone"
 {% endif %}
 {% if nsd_role == 'master' %}
   notify: {{ nsd_slave }} {{ zone.key }}
