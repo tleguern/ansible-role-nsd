@@ -9,6 +9,9 @@ server:
   hide-version: yes
   verbosity: 1
   database: {{ nsd_db_dir }}/nsd.db
+{% if nsd_logfile != "" %}
+  logfile: {{ nsd_logfile }}
+{% endif %}
 
 remote-control:
   control-enable: yes

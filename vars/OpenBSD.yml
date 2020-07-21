@@ -8,3 +8,4 @@ __nsd_zones_dir: /var/nsd/zones
 __nsd_db_dir: /var/nsd/db
 __nsd_bin: /usr/sbin/nsd-checkconf
 __nsd_sock: /var/run/nsd.sock
+__nsd_logfile: ""

@@ -8,3 +8,4 @@ __nsd_zones_dir: /etc/nsd/zones
 __nsd_db_dir: /var/lib/nsd
 __nsd_bin: /usr/sbin/nsd-checkconf
 __nsd_sock: 127.0.0.1
+__nsd_logfile: /var/log/nsd.log

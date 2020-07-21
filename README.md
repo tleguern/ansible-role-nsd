@@ -20,6 +20,7 @@ None.
 | `nsd_conf_file` | Path to `nsd.conf` | `{{ nsd_conf_dir }}/nsd.conf` |
 | `nsd_bin` | Path to `nsd-checkconf` | `{{ __nsd_bin }}` |
 | `nsd_sock` | Path to `nsd` remote-control socket | `{{ __nsd_sock }}` |
+| `nsd_logfile` | Path to `nsd` log | `{{ __nsd_logfile }}` |
 | `nsd_flags` | Addtional flags to `nsd` daemon | "" |
 | `nsd_zones_inputdir` | Local path to directory where your zone files reside | "" | 
 | `nsd_role` | Either `standalone`, `master` or `slave` | `standalone` |
