@@ -16,12 +16,18 @@
     owner: root
     group: "{{ nsd_group }}"
 
-- name: Create master and slave directories
+- name: Create master directory
   file:
-    path: "{{ __nsd_zones_dir }}/{{ item }}"
+    path: "{{ __nsd_zones_dir }}/master"
     state: directory
     owner: root
     group: "{{ nsd_group }}"
-  loop:
-    - master
-    - slave
+    mode: 0755
+
+- name: Create slave directory
+  file:
+    path: "{{ __nsd_zones_dir }}/slave"
+    state: directory
+    owner: root
+    group: "{{ nsd_group }}"
+    mode: 0775
