@@ -1,5 +1,6 @@
 ---
 - name: "{{ zone.name }} - Get current serial"
+  check_mode: false
   shell: grep '; serial' '{{ nsd_zones_dir }}/master/{{ zone.name }}.zone' | grep -Eo '[0-9]{10}'
   changed_when: False
   failed_when: False
@@ -10,12 +11,14 @@
     serial: "{{ current_serial.stdout }}"
 
 - name: "{{ zone.name }} - Create temporary zone file"
+  check_mode: false
   template:
     src: "{{ nsd_zones_inputdir }}/{{ zone.name }}.j2"
     dest: "/tmp/{{ zone.name }}.zone.tmp"
   changed_when: False
 
 - name: "{{ zone.name }} - Stat temporary zone file"
+  check_mode: false
   stat:
     path: "/tmp/{{ zone.name }}.zone.tmp"
   register: temp_zone_file
