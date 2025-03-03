@@ -1,26 +1,26 @@
 ---
 - name: "{{ zone.name }} - Stat zone file"
-  stat:
+  ansible.builtin.stat:
     path: "{{ nsd_zones_dir }}/master/{{ zone.name }}.zone"
   register: current_zone_file
 
 - name: "{{ zone.name }} - Deletion"
-  include_tasks: zonefile-delete.yml
+  ansible.builtin.include_tasks: zonefile-delete.yml
   when:
     - zone.state is defined and zone.state == 'absent'
     - current_zone_file.stat.exists == True
 
 - name: "{{ zone.name }} - Creation"
   block:
-    - set_fact:
+    - ansible.builtin.set_fact:
         serial: "{{ today + '00' }}"
-    - include_tasks: zonefile-create.yml
+    - ansible.builtin.include_tasks: zonefile-create.yml
   when:
     - zone.state is not defined or zone.state == 'present'
     - current_zone_file.stat.exists == False
 
 - name: "{{ zone.name }} - Update"
-  include_tasks: zonefile-update.yml
+  ansible.builtin.include_tasks: zonefile-update.yml
   when:
     - zone.state is not defined or zone.state == 'present'
     - current_zone_file.stat.exists == True

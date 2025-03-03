@@ -1,23 +1,23 @@
 ---
 - name: Install nsd
-  apt:
+  ansible.builtin.apt:
     name: "{{ nsd_package }}"
     state: present
 
 - name: Enable nsd
-  service:
+  ansible.builtin.service:
     name: "{{ nsd_service }}"
     enabled: yes
 
 - name: Create zones directory
-  file:
+  ansible.builtin.file:
     path: "{{ __nsd_zones_dir }}"
     state: directory
     owner: root
     group: "{{ nsd_group }}"
 
 - name: Create master directory
-  file:
+  ansible.builtin.file:
     path: "{{ __nsd_zones_dir }}/master"
     state: directory
     owner: root
@@ -25,7 +25,7 @@
     mode: 0755
 
 - name: Create slave directory
-  file:
+  ansible.builtin.file:
     path: "{{ __nsd_zones_dir }}/slave"
     state: directory
     owner: root

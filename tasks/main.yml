@@ -1,9 +1,9 @@
 ---
-- include_vars: "{{ ansible_os_family }}.yml"
-- include: "install-{{ ansible_os_family }}.yml"
+- ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
+- ansible.builtin.include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: Create nsd.conf
-  template:
+  ansible.builtin.template:
     src: nsd.conf.j2
     dest: "{{ nsd_conf_file }}"
     validate: "{{ nsd_bin }} %s"
@@ -13,18 +13,18 @@
   notify: Restart nsd
 
 - name: Define today's timestamp
-  set_fact:
+  ansible.builtin.set_fact:
     today: "{{ ansible_date_time.year + ansible_date_time.month + ansible_date_time.day }}"
 
-- include_tasks: zonefile.yml
+- ansible.builtin.include_tasks: zonefile.yml
   loop: "{{ nsd_zones }}"
   loop_control:
     loop_var: zone
   when: nsd_role != 'slave'
 
 - name: Ensure nsd is started
-  service:
+  ansible.builtin.service:
     name: "{{ nsd_service }}"
     state: started
 
-- meta: flush_handlers
+- ansible.builtin.meta: flush_handlers
